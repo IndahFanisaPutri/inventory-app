@@ -14,9 +14,14 @@
     <!-- BAGIAN ATAS: NAVBAR -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="#">SIPRO</a>
+            <a class="navbar-brand" href="{{ route('home') }}">Inventory App</a>
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav ms-auto">
+                    <!-- Link navigasi ke halaman Home -->
+                    <li class="nav-item">
+                        <a class="nav-link" 
+                            href="{{ route('home') }}">Home</a>
+                    </li>
                     <!-- Link navigasi ke halaman Produk -->
                     <li class="nav-item">
                         <a class="nav-link"
@@ -42,7 +47,7 @@
     <!-- BAGIAN BAWAH: FOOTER -->
     <footer class="bg-dark text-white text-center py-3 mt-auto">
         <div class="container">
-            <p class="mb-0">&copy; {{ date('Y') }} Sistem Informasi Produk. Hak Cipta Dilindungi.</p>
+            <p class="mb-0">&copy; {{ date('Y') }} Inventory App - Manajemen Informatika PNP</p>
         </div>
     </footer>
 </body>
