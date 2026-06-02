@@ -11,18 +11,18 @@
             <h1 class="fw-bold text-dark mb-1">
                 Daftar Barang Inventaris
             </h1>
-
-    
         </div>
 
-        <!-- Button Tambah -->
-        <a href="{{ route('products.create') }}" 
-           class="btn btn-dark btn-lg rounded-3 shadow-sm px-4">
+        <!-- Tombol Tambah (Hanya Admin) -->
+        @if(Auth::check() && Auth::user()->role === 'admin')
+            <a href="{{ route('products.create') }}"
+               class="btn btn-dark btn-lg rounded-3 shadow-sm px-4">
 
-            <i class="bi bi-plus-circle me-2"></i>
-            Tambah Data
+                <i class="bi bi-plus-circle me-2"></i>
+                Tambah Data
 
-        </a>
+            </a>
+        @endif
 
     </div>
 
@@ -53,9 +53,7 @@
 
                 <table class="table table-hover align-middle mb-0">
 
-                    <!-- Table Head -->
                     <thead style="background-color: #f8f9fa;">
-
                         <tr class="text-center">
 
                             <th class="py-3 text-secondary">No</th>
@@ -65,70 +63,54 @@
                             <th class="py-3 text-secondary">Stok</th>
                             <th class="py-3 text-secondary">Deskripsi</th>
                             <th class="py-3 text-secondary">Status</th>
-                            <th class="py-3 text-secondary" width="200">
-                                Aksi
-                            </th>
+
+                            @if(Auth::check() && Auth::user()->role === 'admin')
+                                <th class="py-3 text-secondary" width="200">
+                                    Aksi
+                                </th>
+                            @endif
 
                         </tr>
-
                     </thead>
 
-                    <!-- Table Body -->
                     <tbody>
 
                         @forelse($products as $index => $p)
 
                         <tr>
 
-                            <!-- No -->
                             <td class="text-center fw-semibold text-dark">
                                 {{ $products->firstItem() + $index }}
                             </td>
 
-                            <!-- Nama -->
                             <td>
-
                                 <div class="fw-semibold text-dark">
                                     {{ $p->name }}
                                 </div>
-
                             </td>
 
-                            <!-- Kategori -->
                             <td class="text-center">
-
                                 <span class="badge bg-light text-dark border px-3 py-2 rounded-pill">
                                     {{ $p->category->name }}
                                 </span>
-
                             </td>
 
-                            <!-- Harga -->
                             <td class="fw-bold text-success text-center">
-
                                 Rp {{ number_format($p->price, 0, ',', '.') }}
-
                             </td>
 
-                            <!-- Stok -->
                             <td class="text-center">
-
                                 <span class="badge bg-secondary-subtle text-dark border px-3 py-2 rounded-pill">
                                     {{ $p->stock }}
                                 </span>
-
                             </td>
 
-                            <!-- Deskripsi -->
                             <td style="max-width: 250px;">
-
                                 <small class="text-muted">
                                     {{ $p->description }}
                                 </small>
-
                             </td>
 
-                            <!-- Status -->
                             <td class="text-center">
 
                                 @if($p->status == 'tersedia')
@@ -147,12 +129,12 @@
 
                             </td>
 
-                            <!-- Aksi -->
+                            <!-- Aksi Hanya Admin -->
+                            @if(Auth::check() && Auth::user()->role === 'admin')
                             <td>
 
                                 <div class="d-flex justify-content-center gap-2">
 
-                                    <!-- Edit -->
                                     <a href="{{ route('products.edit', $p->id) }}"
                                        class="btn btn-warning btn-sm rounded-3 px-3 shadow-sm">
 
@@ -161,7 +143,6 @@
 
                                     </a>
 
-                                    <!-- Hapus -->
                                     <form action="{{ route('products.destroy', $p->id) }}"
                                           method="POST"
                                           onsubmit="return confirm('Yakin ingin menghapus data ini?')">
@@ -182,18 +163,16 @@
                                 </div>
 
                             </td>
+                            @endif
 
                         </tr>
 
                         @empty
 
                         <tr>
-
                             <td colspan="8" class="text-center py-5">
 
                                 <div class="text-muted">
-
-                                    <i class="bi bi-inbox display-5 d-block mb-3"></i>
 
                                     <h5 class="mb-1">
                                         Data produk belum tersedia
@@ -206,7 +185,6 @@
                                 </div>
 
                             </td>
-
                         </tr>
 
                         @endforelse
@@ -223,9 +201,7 @@
         <div class="card-footer bg-white border-0 py-3">
 
             <div class="d-flex justify-content-center">
-
                 {{ $products->links('pagination::bootstrap-5') }}
-
             </div>
 
         </div>

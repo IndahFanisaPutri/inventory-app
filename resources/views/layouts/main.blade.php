@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initialscale=1.0">
     <title>Aplikasi Inventaris</title>
     <!-- Memanggil CSS Bootstrap 5 melalui CDN agar tampilan rapi secara otomatis -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"    rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <!-- min-vh-100 memastikan tinggi body selalu memenuhi layar, penting agar footer bertahan di bawah -->
 
@@ -19,7 +19,7 @@
                 <ul class="navbar-nav ms-auto">
                     <!-- Link navigasi ke halaman Home -->
                     <li class="nav-item">
-                        <a class="nav-link" 
+                        <a class="nav-link"
                             href="{{ route('home') }}">Home</a>
                     </li>
                     <!-- Link navigasi ke halaman Produk -->
@@ -33,14 +33,40 @@
                             href="{{ route('categories.index') }}">Kategori</a>
                     </li>
                 </ul>
+
+                {{-- Informasi Login/User --}}
+                @auth
+                <div class="navbar-text ms-3 me-3">
+                    Halo, <strong>{{ Auth::user()->name }}</strong>
+
+                    <span class="badge bg-{{ Auth::user()->role === 'admin' ? 'danger' : 'secondary' }}">
+                        {{ Auth::user()->role }}
+                    </span>
+                </div>
+
+                <form method="POST" action="{{ route('logout') }}" class="d-inline">
+                    @csrf
+                    <button type="submit" class="btn btn-outline-danger btn-sm">
+                        Logout
+                    </button>
+                </form>
+                @endauth
+
+                @guest
+                <a href="{{ route('login') }}" class="btn btn-primary btn-sm ms-3">
+                    Login
+                </a>
+                @endguest
+
             </div>
+        </div>
         </div>
     </nav>
     <!-- BAGIAN TENGAH: KONTEN DINAMIS -->
     <!-- Elemen <main> inilah yang menjadi wadah utama dari form/tabel yang nanti kita buat -->
     <main class="container my-5 flex-grow-1">
         <div>
-        @yield('content')
+            @yield('content')
         </div>
     </main>
 
